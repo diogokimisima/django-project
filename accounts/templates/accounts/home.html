@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
-  </head>
-  <body>
+</head>
+<body>
     <div>
         <h2>Bem-vindo à Home</h2>
         <p>Você está logado com sucesso!</p>
@@ -13,15 +13,25 @@
     </div>
 
     <div>
-      <h2>Produtos Disponíveis</h2>
-      <ul>
-        {% for produto in produtos %}
-          <li>{{ produto.nome }} - R$ {{ produto.preco }}</li>
-        {% endfor %}
-      </ul>
-      {% if user.is_authenticated and user.is_superuser %}
-        <a href="{% url 'add_produto' %}">Adicionar Produto</a>
-      {% endif %}
+        <h2>Produtos Disponíveis</h2>
+        <ul>
+            {% for produto in produtos %}
+                <div>
+                    <h2>{{ produto.nome }}</h2>
+                    <p>{{ produto.descricao }}</p>
+                    <p>Preço: {{ produto.preco }}</p>
+                    {% if produto.imagem %}
+                        <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" width="200" />
+                        <p>URL da imagem: {{ produto.imagem.url }}</p> {# Adicionando a URL para depuração #}
+                    {% else %}
+                        <p>Imagem não disponível.</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </ul>
+        {% if user.is_authenticated and user.is_superuser %}
+            <a href="{% url 'add_produto' %}">Adicionar Produto</a>
+        {% endif %}
     </div>
-  </body>
+</body>
 </html>

@@ -7,10 +7,10 @@
   </head>
   <body>
     <h2>Adicionar Produto</h2>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit">Salvar</button>
+      <button type="submit">Cadastrar</button>
     </form>
   </body>
 </html>

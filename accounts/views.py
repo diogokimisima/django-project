@@ -33,7 +33,8 @@ def login_view(request):
 # View de Home (apenas usuários logados podem acessar)
 @login_required(login_url='login')  # Redireciona para login se não estiver logado
 def home_view(request):
-    return render(request, 'accounts/home.html')
+    produtos = Produto.objects.all()
+    return render(request, 'accounts/home.html', {'produtos': produtos})
 
 def home_view(request):
     produtos = Produto.objects.all()
@@ -48,9 +49,10 @@ def is_admin(user):
 @user_passes_test(is_admin)
 def add_produto_view(request):
     if request.method == 'POST':
-        form = ProdutoForm(request.POST)
+        form = ProdutoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Produto adicionado com sucesso!')
             return redirect('home')
     else:
         form = ProdutoForm()
