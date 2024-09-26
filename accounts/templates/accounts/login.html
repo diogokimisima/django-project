@@ -1,20 +1,21 @@
+{% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% tailwind_css %}
     <title>Login</title>
-</head>
-<body>
-    <h2>Login</h2>
-<form method="post">
-    {% csrf_token %}
-    <label for="username">Usuário:</label>
-    <input type="text" name="username" required><br>
-    <label for="password">Senha:</label>
-    <input type="password" name="password" required><br>
-    <button type="submit">Entrar</button>
-</form>
-
-</body>
+  </head>
+  <body>
+    <h2 class="text-4xl">Login</h2>
+    <form method="post">
+      {% csrf_token %}
+      <label for="username">Usuário:</label>
+      <input type="text" name="username" required /><br />
+      <label for="password">Senha:</label>
+      <input type="password" name="password" required /><br />
+      <button type="submit">Entrar</button>
+    </form>
+  </body>
 </html>
