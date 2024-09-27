@@ -126,9 +126,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = [
-#     BASE_DIR / "static",  # Certifique-se de que está correto se você tiver um diretório estático global
-# ]
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # Certifique-se de que está correto se você tiver um diretório estático global
+]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 INTERNAL_IPS = [
     "127.0.0.1",

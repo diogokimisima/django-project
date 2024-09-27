@@ -1,16 +1,39 @@
+{% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% tailwind_css %}
     <title>Registro</title>
   </head>
   <body>
-    <h2>Registro</h2>
-    <form form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Registrar</button>
-    </form>
+    <div class="bg-gray-950 h-lvh flex flex-row justify-center items-center px-28">
+      <div class="flex-1 flex justify-center items-center gap-4">
+        <img src="{% static 'accounts/images/food_explorer_logo.svg' %}" alt="Food Explorer Logo">
+        <h1 class="text-5xl">Food Explorer</h1>
+      </div>
+
+      <div class="bg-[#001119] w-[476px] h-[550px] flex flex-col justify-center items-center gap-8 rounded-md">
+        <h2 class="text-4xl">Crie sua conta</h2>
+        <form method="post" class="w-full px-16 flex flex-col items-center gap-6">
+          {% csrf_token %}
+          <div class="flex flex-col w-full gap-2">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+          </div>
+          <div class="flex flex-col w-full gap-2">
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+          </div>
+          <div class="flex flex-col w-full gap-2">
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+          </div>
+          <button class="bg-[#750310] w-full py-3 rounded-md" type="submit">Registrar</button>
+          <a href="{% url 'login' %}" class="mt-4">Já tenho uma conta</a>
+        </form>
+      </div>
+    </div>
   </body>
 </html>
