@@ -25,6 +25,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),  # Inclui as rotas do app accounts
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),  # Adicione aqui o logout
     path("__reload__/", include("django_browser_reload.urls")),
+    
 ]
 
 if settings.DEBUG: 

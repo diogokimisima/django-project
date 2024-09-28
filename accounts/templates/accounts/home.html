@@ -1,37 +1,76 @@
-{% load static %}
+{% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
-    <link rel="stylesheet" href="{% static 'accounts/styles.css' %}">
+    {% tailwind_css %}
   </head>
-  <body>
+  <body class="bg-dark-400">
     <div>
-      <h1>Bem-vindo à Home</h1>
-      <p>Você está logado com sucesso!</p>
-      <a href="{% url 'logout' %}" class="text-red-500 hover:underline">Logout</a>
+      <header class="bg-dark-600 h-[104px] flex justify-center items-center gap-8 w-full fixed top-0 z-50">
+        <div class="flex items-center gap-8">
+          <div class="flex items-center">
+            <img class="h-8 w-8 mr-3" src="{% static 'accounts/images/food_explorer_logo.svg' %}" alt="logo" />
+            <h1 class="text-light-100 text-2xl font-bold">Food Explorer</h1>
+          </div>
+          <div class="flex bg-dark-900 py-3 px-20 rounded-md gap-2">
+            <img class="text-light-400" src="{% static 'accounts/images/search.svg' %}" alt="" />
+            <input class="placeholder:text-light-500 bg-dark-900 w-80 border-none focus:outline-none" type="text" placeholder="Busque por pratos ou ingredientes" />
+          </div>
+        </div>
+
+        {% if user.is_authenticated %}
+          {% if user.is_superuser %}
+            <a href="{% url 'add_produto' %}" class="flex bg-tomato-100 gap-2 py-3 px-11 rounded-md hover:bg-tomato-200 transition duration-200 ease-in-out text-light-100">Adicionar Produto</a>
+          {% else %}
+            <a href="" class="flex bg-tomato-100 gap-2 py-3 px-11 rounded-md hover:bg-tomato-200 transition duration-200 ease-in-out">
+              <img class="text-light-100" src="{% static 'accounts/images/pedido.svg' %}" alt="logo-pedido" />
+              <p class="text-light-100 text-sm font-poppins text-[14px]">Pedidos (0)</p>
+            </a>
+          {% endif %}
+        {% endif %}
+
+        <button><img class="text-light-700" src="{% static 'accounts/images/logout.svg' %}" alt="logo-logout" /></button>
+      </header>
 
       <div>
-        <h2>Produtos Disponíveis</h2>
-        <ul>
-          {% for produto in produtos %}
-            <li>
-              <h3>{{ produto.nome }}</h3>
-              <p>{{ produto.descricao }}</p>
-              <p>Preço: R$ {{ produto.preco }}</p>
-              {% if produto.imagem %}
-                <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" />
-              {% else %}
-                <p>Imagem não disponível.</p>
-              {% endif %}
-            </li>
-          {% endfor %}
-        </ul>
-        {% if user.is_authenticated and user.is_superuser %}
-          <a href="{% url 'add_produto' %}">Adicionar Produto</a>
-        {% endif %}
+        <div class="bg-gradient-100 h-[260px] w-[1120px] flex justify-center mx-auto relative mt-[280px] rounded-lg">
+          <div class="absolute -left-12 -top-[146px]">
+            <img src="{% static 'accounts/images/banner.png' %}" alt="banner" />
+          </div>
+
+          <div class="flex flex-col justify-center items-center gap-2 w-1/2 ml-auto">
+            <h2 class="text-light-300 text-[40px] font-medium font-poppins">Sabores inigualáveis</h2>
+            <p class="text-light-300 text-base">Sinta o cuidado do preparo com ingredientes selecionados</p>
+          </div>
+        </div>
+
+        <div class="flex flex-col justify-center items-center mx-auto mt-16 mb-10">
+          <div>
+            <h3 class="text-light-300 font-poppins text-3xl">Refeições</h3>
+          </div>
+          <div class="">
+            <div class="flex flex-col justify-center items-center bg-dark-200 w-72 rounded-lg gap-[15px] p-6 relative">
+              {% for produto in produtos %}
+                <img class="w-44 h-44" src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" />
+                <h4 class="font-poppins text-2xl font-semibold text-light-300">{{ produto.nome }}</h4>
+                <p class="text-light-400 text-[14px]">{{ produto.descricao }}</p>
+                <p class="text-cake-200 text-[32px]">R$ {{ produto.preco }}</p>
+                <div class="flex items-center gap-4">
+                  <button><img src="{% static 'accounts/images/minus.svg' %}" alt="icon minus" /></button>
+                  <p class="font-bold text-[20px]">01</p>
+                  <button><img src="{% static 'accounts/images/plus.svg' %}" alt="icon plus" /></button>
+                  <div class="bg-tomato-100 hover:bg-tomato-200 transition duration-200 ease-in-out rounded-md py-3 px-6">
+                    <button class="">Incluir</button>
+                  </div>
+                </div>
+                <button class="absolute top-4 right-5"><img class="w-6 h-6" src="{% static 'accounts/images/favorite.svg' %}" alt="icon favorite" /></button>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>
