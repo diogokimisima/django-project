@@ -36,10 +36,6 @@ def home_view(request):
     produtos = Produto.objects.all()
     return render(request, 'accounts/home.html', {'produtos': produtos})
 
-def home_view(request):
-    produtos = Produto.objects.all()
-    return render(request, 'accounts/home.html', {'produtos': produtos})
-
 # Verifica se o usuário é admin
 def is_admin(user):
     return user.is_superuser

@@ -32,7 +32,7 @@
           {% endif %}
         {% endif %}
 
-        <button><img class="text-light-700" src="{% static 'accounts/images/logout.svg' %}" alt="logo-logout" /></button>
+        <a href="{% url 'logout' %}"><img class="text-light-700" src="{% static 'accounts/images/logout.svg' %}" alt="logo-logout" /></a>
       </header>
 
       <div>
@@ -51,9 +51,9 @@
           <div>
             <h3 class="text-light-300 font-poppins text-3xl">Refeições</h3>
           </div>
-          <div class="">
-            <div class="flex flex-col justify-center items-center bg-dark-200 w-72 rounded-lg gap-[15px] p-6 relative">
-              {% for produto in produtos %}
+          <div class="flex flex-wrap justify-center gap-6 mt-6">
+            {% for produto in produtos %}
+              <div class="flex flex-col justify-center items-center bg-dark-200 w-72 rounded-lg gap-[15px] p-6 relative">
                 <img class="w-44 h-44" src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" />
                 <h4 class="font-poppins text-2xl font-semibold text-light-300">{{ produto.nome }}</h4>
                 <p class="text-light-400 text-[14px]">{{ produto.descricao }}</p>
@@ -67,8 +67,8 @@
                   </div>
                 </div>
                 <button class="absolute top-4 right-5"><img class="w-6 h-6" src="{% static 'accounts/images/favorite.svg' %}" alt="icon favorite" /></button>
-              {% endfor %}
-            </div>
+              </div>
+            {% endfor %}
           </div>
         </div>
       </div>
