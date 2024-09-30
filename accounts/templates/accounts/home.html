@@ -11,9 +11,16 @@
     <div>
       <header class="bg-dark-600 h-[104px] flex justify-center items-center gap-8 w-full fixed top-0 z-50">
         <div class="flex items-center gap-8">
-          <div class="flex items-center">
-            <img class="h-8 w-8 mr-3" src="{% static 'accounts/images/food_explorer_logo.svg' %}" alt="logo" />
-            <h1 class="text-light-100 text-2xl font-bold">Food Explorer</h1>
+          <div class="flex flex-col items-end">
+            <div class="flex">
+              <img class="h-8 w-8 mr-3" src="{% static 'accounts/images/food_explorer_logo.svg' %}" alt="logo" />
+              <h1 class="text-light-100 text-2xl font-bold">Food Explorer</h1>
+            </div>
+            {% if user.is_authenticated %}
+              {% if user.is_superuser %}
+                <p class="text-cake-200 text-small -mt-1">admin</p>
+              {% endif %}
+            {% endif %}
           </div>
           <div class="flex bg-dark-900 py-3 px-20 rounded-md gap-2">
             <img class="text-light-400" src="{% static 'accounts/images/search.svg' %}" alt="" />
@@ -51,22 +58,36 @@
           <div>
             <h3 class="text-light-300 font-poppins text-3xl">Refeições</h3>
           </div>
-          <div class="flex flex-wrap justify-center gap-6 mt-6">
+          <div class="flex flex-wrap justify-center gap-14 mt-6">
             {% for produto in produtos %}
               <div class="flex flex-col justify-center items-center bg-dark-200 w-72 rounded-lg gap-[15px] p-6 relative">
                 <img class="w-44 h-44" src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" />
                 <h4 class="font-poppins text-2xl font-semibold text-light-300">{{ produto.nome }}</h4>
                 <p class="text-light-400 text-[14px]">{{ produto.descricao }}</p>
                 <p class="text-cake-200 text-[32px]">R$ {{ produto.preco }}</p>
-                <div class="flex items-center gap-4">
-                  <button><img src="{% static 'accounts/images/minus.svg' %}" alt="icon minus" /></button>
-                  <p class="font-bold text-[20px]">01</p>
-                  <button><img src="{% static 'accounts/images/plus.svg' %}" alt="icon plus" /></button>
-                  <div class="bg-tomato-100 hover:bg-tomato-200 transition duration-200 ease-in-out rounded-md py-3 px-6">
-                    <button class="">Incluir</button>
-                  </div>
-                </div>
-                <button class="absolute top-4 right-5"><img class="w-6 h-6" src="{% static 'accounts/images/favorite.svg' %}" alt="icon favorite" /></button>
+
+                {% if user.is_authenticated %}
+                  {% if user.is_superuser %}
+
+                  {% else %}
+                    <div class="flex items-center gap-4">
+                      <button><img src="{% static 'accounts/images/minus.svg' %}" alt="icon minus" /></button>
+                      <p class="font-bold text-[20px]">01</p>
+                      <button><img src="{% static 'accounts/images/plus.svg' %}" alt="icon plus" /></button>
+                      <div class="bg-tomato-100 hover:bg-tomato-200 transition duration-200 ease-in-out rounded-md py-3 px-6">
+                        <button class="">Incluir</button>
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                  {% if user.is_superuser %}
+                    <button class="absolute top-4 right-5"><img class="w-6 h-6" src="{% static 'accounts/images/pencil.svg' %}" alt="icon favorite" /></button>
+                  {% else %}
+                    <button class="absolute top-4 right-5"><img class="w-6 h-6" src="{% static 'accounts/images/favorite.svg' %}" alt="icon favorite" /></button>
+                  {% endif %}
+                {% endif %}
               </div>
             {% endfor %}
           </div>

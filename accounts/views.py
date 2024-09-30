@@ -25,13 +25,13 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('home')  # Redireciona para a página "home"
+            return redirect('home') 
         else:
             messages.error(request, 'Usuário ou senha inválidos')
     return render(request, 'accounts/login.html')
 
 # View de Home (apenas usuários logados podem acessar)
-@login_required(login_url='login')  # Redireciona para login se não estiver logado
+@login_required(login_url='login') 
 def home_view(request):
     produtos = Produto.objects.all()
     return render(request, 'accounts/home.html', {'produtos': produtos})
