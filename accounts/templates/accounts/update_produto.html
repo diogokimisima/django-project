@@ -1,0 +1,46 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar produto</title>
+    {% tailwind_css %}
+  </head>
+  <body class="bg-dark-400">
+    {% include 'accounts/header.html' %}
+
+    <main class="mt-[104px] p-8">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <a href="{% url 'home' %}" class="flex items-center">
+            <img class="w-8 h-8" src="{% static 'accounts/images/back.svg' %}" alt="back" />
+            <p class="font-bold font-poppins text-light-300 text-2xl">voltar</p>
+        </a>
+  
+        <h1 class="font-poppins text-[32px] text-light-300">Editar Produto: {{ produto.nome }}</h1>
+
+        <div class="mb-4">
+          <label for="nome" class="text-light-100">Nome:</label>
+          <input type="text" id="nome" name="nome" value="{{ produto.nome }}" class="input-field" required />
+        </div>
+        <div class="mb-4">
+          <label for="descricao" class="text-light-100">Descrição:</label>
+          <textarea id="descricao" name="descricao" class="input-field" required>{{ produto.descricao }}</textarea>
+        </div>
+        <div class="mb-4">
+          <label for="preco" class="text-light-100">Preço:</label>
+          <input type="number" id="preco" name="preco" value="{{ produto.preco }}" step="0.01" class="input-field" required />
+        </div>
+        <div class="mb-4">
+          <label for="imagem" class="text-light-100">Imagem:</label>
+          <input type="file" id="imagem" name="imagem" class="input-field" />
+          <img src="{{ produto.imagem.url }}" alt="Imagem do produto" class="mt-2" />
+        </div>
+        <button type="submit" class="bg-tomato-100 text-light-100 py-2 px-4 rounded">Salvar Alterações</button>
+      </form>
+    </main>
+
+    {% include 'accounts/footer.html' %}
+  </body>
+</html>

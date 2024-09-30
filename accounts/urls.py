@@ -8,5 +8,6 @@ urlpatterns = [
     path('home/', views.home_view, name='home'), 
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('add-produto/', views.add_produto_view, name='add_produto'),
+    path('update_produto/<int:id>/', views.update_produto, name='update_produto'),
 ]
 

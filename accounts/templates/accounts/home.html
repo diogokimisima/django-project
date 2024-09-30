@@ -9,38 +9,7 @@
   </head>
   <body class="bg-dark-400">
     <div>
-      <header class="bg-dark-600 h-[104px] flex justify-center items-center gap-8 w-full fixed top-0 z-50">
-        <div class="flex items-center gap-8">
-          <div class="flex flex-col items-end">
-            <div class="flex">
-              <img class="h-8 w-8 mr-3" src="{% static 'accounts/images/food_explorer_logo.svg' %}" alt="logo" />
-              <h1 class="text-light-100 text-2xl font-bold">Food Explorer</h1>
-            </div>
-            {% if user.is_authenticated %}
-              {% if user.is_superuser %}
-                <p class="text-cake-200 text-small -mt-1">admin</p>
-              {% endif %}
-            {% endif %}
-          </div>
-          <div class="flex bg-dark-900 py-3 px-20 rounded-md gap-2">
-            <img class="text-light-400" src="{% static 'accounts/images/search.svg' %}" alt="" />
-            <input class="placeholder:text-light-500 bg-dark-900 w-80 border-none focus:outline-none" type="text" placeholder="Busque por pratos ou ingredientes" />
-          </div>
-        </div>
-
-        {% if user.is_authenticated %}
-          {% if user.is_superuser %}
-            <a href="{% url 'add_produto' %}" class="flex bg-tomato-100 gap-2 py-3 px-11 rounded-md hover:bg-tomato-200 transition duration-200 ease-in-out text-light-100">Adicionar Produto</a>
-          {% else %}
-            <a href="" class="flex bg-tomato-100 gap-2 py-3 px-11 rounded-md hover:bg-tomato-200 transition duration-200 ease-in-out">
-              <img class="text-light-100" src="{% static 'accounts/images/pedido.svg' %}" alt="logo-pedido" />
-              <p class="text-light-100 text-sm font-poppins text-[14px]">Pedidos (0)</p>
-            </a>
-          {% endif %}
-        {% endif %}
-
-        <a href="{% url 'logout' %}"><img class="text-light-700" src="{% static 'accounts/images/logout.svg' %}" alt="logo-logout" /></a>
-      </header>
+      {% include 'accounts/header.html' %}
 
       <div>
         <div class="bg-gradient-100 h-[260px] w-[1120px] flex justify-center mx-auto relative mt-[280px] rounded-lg">
@@ -54,16 +23,16 @@
           </div>
         </div>
 
-        <div class="flex flex-col justify-center items-center mx-auto mt-16 mb-10">
-          <div>
-            <h3 class="text-light-300 font-poppins text-3xl">Refeições</h3>
+        <div class="flex flex-col justify-center mx-auto mt-16 mb-10 max-w-[1350px]">
+          <div class="ml-5">
+            <h3 class="text-light-300 font-poppins text-3xl" >Refeições</h3>
           </div>
           <div class="flex flex-wrap justify-center gap-14 mt-6">
             {% for produto in produtos %}
               <div class="flex flex-col justify-center items-center bg-dark-200 w-72 rounded-lg gap-[15px] p-6 relative">
                 <img class="w-44 h-44" src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" />
                 <h4 class="font-poppins text-2xl font-semibold text-light-300">{{ produto.nome }}</h4>
-                <p class="text-light-400 text-[14px]">{{ produto.descricao }}</p>
+                <p class="text-light-400 text-[14px] text-center">{{ produto.descricao }}</p>
                 <p class="text-cake-200 text-[32px]">R$ {{ produto.preco }}</p>
 
                 {% if user.is_authenticated %}
@@ -83,9 +52,9 @@
 
                 {% if user.is_authenticated %}
                   {% if user.is_superuser %}
-                    <button class="absolute top-4 right-5"><img class="w-6 h-6" src="{% static 'accounts/images/pencil.svg' %}" alt="icon favorite" /></button>
+                    <a href="{% url 'update_produto' produto.id %}" class="absolute top-4 right-5"><img class="w-6 h-6" src="{% static 'accounts/images/pencil.svg' %}" alt="icon favorite" /></a>
                   {% else %}
-                    <button class="absolute top-4 right-5"><img class="w-6 h-6" src="{% static 'accounts/images/favorite.svg' %}" alt="icon favorite" /></button>
+                    <a class="absolute top-4 right-5"><img class="w-6 h-6" src="{% static 'accounts/images/favorite.svg' %}" alt="icon favorite" /></a>
                   {% endif %}
                 {% endif %}
               </div>
@@ -94,5 +63,7 @@
         </div>
       </div>
     </div>
+
+    {% include 'accounts/footer.html' %}
   </body>
 </html>

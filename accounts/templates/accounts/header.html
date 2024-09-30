@@ -1,0 +1,33 @@
+{% load static %}
+<header class="bg-dark-600 h-[104px] flex justify-center items-center gap-8 w-full fixed top-0 z-50">
+    <div class="flex items-center gap-8">
+      <div class="flex flex-col items-end">
+        <div class="flex">
+          <img class="h-8 w-8 mr-3" src="{% static 'accounts/images/food_explorer_logo.svg' %}" alt="logo" />
+          <h1 class="text-light-100 text-2xl font-bold">Food Explorer</h1>
+        </div>
+        {% if user.is_authenticated %}
+          {% if user.is_superuser %}
+            <p class="text-cake-200 text-small -mt-1">admin</p>
+          {% endif %}
+        {% endif %}
+      </div>
+      <div class="flex bg-dark-900 py-3 px-20 rounded-md gap-2">
+        <img class="text-light-400" src="{% static 'accounts/images/search.svg' %}" alt="" />
+        <input class="placeholder:text-light-500 bg-dark-900 w-80 border-none focus:outline-none" type="text" placeholder="Busque por pratos ou ingredientes" />
+      </div>
+    </div>
+
+    {% if user.is_authenticated %}
+      {% if user.is_superuser %}
+        <a href="{% url 'add_produto' %}" class="flex bg-tomato-100 gap-2 py-3 px-11 rounded-md hover:bg-tomato-200 transition duration-200 ease-in-out text-light-100">Adicionar Produto</a>
+      {% else %}
+        <a href="" class="flex bg-tomato-100 gap-2 py-3 px-11 rounded-md hover:bg-tomato-200 transition duration-200 ease-in-out">
+          <img class="text-light-100" src="{% static 'accounts/images/pedido.svg' %}" alt="logo-pedido" />
+          <p class="text-light-100 text-sm font-poppins text-[14px]">Pedidos (0)</p>
+        </a>
+      {% endif %}
+    {% endif %}
+
+    <a href="{% url 'logout' %}"><img class="text-light-700" src="{% static 'accounts/images/logout.svg' %}" alt="logo-logout" /></a>
+  </header>

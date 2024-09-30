@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate, login
 from .models import Produto
 from .forms import RegisterForm, ProdutoForm
@@ -19,6 +19,10 @@ def register(request):
 
 # View de login
 def login_view(request):
+
+    if request.user.is_authenticated:
+        return redirect('home')
+    
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -53,3 +57,10 @@ def add_produto_view(request):
     else:
         form = ProdutoForm()
     return render(request, 'accounts/add_produto.html', {'form': form})    
+
+# View para editar produto (restrito a admins)
+@login_required
+@user_passes_test(is_admin)
+def update_produto(request, id):
+    produto = get_object_or_404(Produto, id=id)
+    return render(request, 'accounts/update_produto.html', {'produto': produto})
