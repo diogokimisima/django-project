@@ -852,8 +852,16 @@ select {
   margin-right: auto;
 }
 
+.-mt-1 {
+  margin-top: -0.25rem;
+}
+
 .mb-10 {
   margin-bottom: 2.5rem;
+}
+
+.ml-5 {
+  margin-left: 1.25rem;
 }
 
 .ml-auto {
@@ -892,26 +900,6 @@ select {
   margin-top: 280px;
 }
 
-.-mt-2 {
-  margin-top: -0.5rem;
-}
-
-.-mt-1 {
-  margin-top: -0.25rem;
-}
-
-.ml-5 {
-  margin-left: 1.25rem;
-}
-
-.mb-4 {
-  margin-bottom: 1rem;
-}
-
-.mt-\[104px\] {
-  margin-top: 104px;
-}
-
 .block {
   display: block;
 }
@@ -934,6 +922,10 @@ select {
 
 .hidden {
   display: none;
+}
+
+.h-12 {
+  height: 3rem;
 }
 
 .h-44 {
@@ -960,8 +952,12 @@ select {
   height: 504px;
 }
 
-.h-\[650px\] {
-  height: 650px;
+.h-\[77px\] {
+  height: 77px;
+}
+
+.h-auto {
+  height: auto;
 }
 
 .h-lvh {
@@ -972,16 +968,12 @@ select {
   height: 100vh;
 }
 
-.h-\[670px\] {
-  height: 670px;
-}
-
-.h-\[77px\] {
-  height: 77px;
-}
-
 .w-1\/2 {
   width: 50%;
+}
+
+.w-32 {
+  width: 8rem;
 }
 
 .w-44 {
@@ -1008,6 +1000,10 @@ select {
   width: 1120px;
 }
 
+.w-\[400px\] {
+  width: 400px;
+}
+
 .w-\[476px\] {
   width: 476px;
 }
@@ -1016,40 +1012,24 @@ select {
   width: 100%;
 }
 
+.max-w-\[1220px\] {
+  max-width: 1220px;
+}
+
 .max-w-\[1320px\] {
   max-width: 1320px;
-}
-
-.max-w-\[900px\] {
-  max-width: 900px;
-}
-
-.max-w-\[1200px\] {
-  max-width: 1200px;
-}
-
-.max-w-\[1300px\] {
-  max-width: 1300px;
-}
-
-.max-w-\[1400px\] {
-  max-width: 1400px;
 }
 
 .max-w-\[1350px\] {
   max-width: 1350px;
 }
 
-.max-w-\[1340px\] {
-  max-width: 1340px;
-}
-
-.max-w-\[1310px\] {
-  max-width: 1310px;
-}
-
 .flex-1 {
   flex: 1 1 0%;
+}
+
+.flex-grow {
+  flex-grow: 1;
 }
 
 .border-collapse {
@@ -1092,10 +1072,6 @@ select {
   align-items: center;
 }
 
-.justify-start {
-  justify-content: flex-start;
-}
-
 .justify-end {
   justify-content: flex-end;
 }
@@ -1104,8 +1080,20 @@ select {
   justify-content: center;
 }
 
+.gap-10 {
+  gap: 2.5rem;
+}
+
+.gap-14 {
+  gap: 3.5rem;
+}
+
 .gap-2 {
   gap: 0.5rem;
+}
+
+.gap-2\.5 {
+  gap: 0.625rem;
 }
 
 .gap-4 {
@@ -1132,14 +1120,6 @@ select {
   gap: 15px;
 }
 
-.gap-14 {
-  gap: 3.5rem;
-}
-
-.gap-2\.5 {
-  gap: 0.625rem;
-}
-
 .rounded-lg {
   border-radius: 0.5rem;
 }
@@ -1150,10 +1130,6 @@ select {
 
 .rounded-xl {
   border-radius: 0.75rem;
-}
-
-.rounded {
-  border-radius: 0.25rem;
 }
 
 .border {
@@ -1236,18 +1212,6 @@ select {
   padding: 1.5rem;
 }
 
-.p-10 {
-  padding: 2.5rem;
-}
-
-.p-2 {
-  padding: 0.5rem;
-}
-
-.p-8 {
-  padding: 2rem;
-}
-
 .px-11 {
   padding-left: 2.75rem;
   padding-right: 2.75rem;
@@ -1268,6 +1232,11 @@ select {
   padding-right: 7rem;
 }
 
+.px-32 {
+  padding-left: 8rem;
+  padding-right: 8rem;
+}
+
 .px-6 {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
@@ -1283,42 +1252,18 @@ select {
   padding-bottom: 0.75rem;
 }
 
-.py-5 {
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
-}
-
-.py-10 {
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
-}
-
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
 
-.px-4 {
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
-.py-2 {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
-
-.px-32 {
-  padding-left: 8rem;
-  padding-right: 8rem;
+.py-5 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
 }
 
 .pb-28 {
   padding-bottom: 7rem;
-}
-
-.text-left {
-  text-align: left;
 }
 
 .text-center {
@@ -1383,16 +1328,12 @@ select {
   line-height: 1.25rem;
 }
 
-.text-\[12px\] {
-  font-size: 12px;
-}
-
-.text-\[10px\] {
-  font-size: 10px;
-}
-
 .font-bold {
   font-weight: 700;
+}
+
+.font-light {
+  font-weight: 300;
 }
 
 .font-medium {
@@ -1401,6 +1342,10 @@ select {
 
 .font-semibold {
   font-weight: 600;
+}
+
+.leading-9 {
+  line-height: 2.25rem;
 }
 
 .leading-normal {
@@ -1426,6 +1371,11 @@ select {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+.text-light-200 {
+  --tw-text-opacity: 1;
+  color: rgb(255 250 241 / var(--tw-text-opacity));
+}
+
 .text-light-300 {
   --tw-text-opacity: 1;
   color: rgb(225 225 230 / var(--tw-text-opacity));
@@ -1444,11 +1394,6 @@ select {
 .text-red-500 {
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity));
-}
-
-.text-light-200 {
-  --tw-text-opacity: 1;
-  color: rgb(255 250 241 / var(--tw-text-opacity));
 }
 
 .filter {
