@@ -63,4 +63,25 @@ def add_produto_view(request):
 @user_passes_test(is_admin)
 def update_produto(request, id):
     produto = get_object_or_404(Produto, id=id)
-    return render(request, 'accounts/update_produto.html', {'produto': produto})
+
+    if request.method == 'POST':
+        form = ProdutoForm(request.POST, request.FILES, instance=produto)
+        if form.is_valid():
+            form.save()
+            return redirect('home')  # Redireciona após salvar
+    else:
+        form = ProdutoForm(instance=produto)
+
+    return render(request, 'accounts/update_produto.html', {'form': form, 'produto': produto})
+
+@login_required
+@user_passes_test(is_admin)
+def delete_produto(request, produto_id):
+    produto = get_object_or_404(Produto, id=produto_id)
+    if request.method == 'POST':
+        produto.delete()
+        messages.success(request, 'Produto deletado com sucesso!')
+        return redirect('home')
+    return redirect('update_produto', id=produto_id)
+
+

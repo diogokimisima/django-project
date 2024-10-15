@@ -1,0 +1,45 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar produto</title>
+    {% tailwind_css %}
+  </head>
+  <body class="bg-dark-400">
+    {% include 'accounts/header.html' %}
+
+    <main>
+      <div class="flex flex-col justify-center items-start max-w-[1220px] gap-7 mt-[180px] mx-auto">
+        {% csrf_token %}
+        <a href="{% url 'home' %}" class="flex items-center">
+          <img class="w-8 h-8" src="{% static 'accounts/images/back.svg' %}" alt="back" />
+          <p class="font-bold font-poppins text-light-300 text-2xl">voltar</p>
+        </a>
+
+        <h1 class="font-poppins text-[32px] text-light-300">Editar produto: {{ produto.nome }}</h1>
+        <div class="flex gap-10">
+          <div class="">
+            <img class="w-[400px] h-auto" src="{{ produto.imagem.url }}" alt="produto" />
+          </div>
+          <div class="flex flex-col gap-6 ml-auto flex-grow">
+            <h2 class="font-poppins text-[40px] font-bold">{{ produto.nome }}</h2>
+            <p class="font-poppins text-2xl font-light leading-9">{{ produto.descricao }}</p>
+            <p class="text-cake-200 text-3xl">R$ {{ produto.preco }}</p>
+
+            <!-- Campos ocultos para enviar dados do produto -->
+            <input type="hidden" name="nome" value="{{ produto.nome }}" />
+            <input type="hidden" name="descricao" value="{{ produto.descricao }}" />
+            <input type="hidden" name="preco" value="{{ produto.preco }}" />
+            <input type="hidden" name="id" value="{{ produto.id }}" />
+
+            <a href="" class="bg-tomato-100 hover:bg-tomato-200 w-32 h-12 rounded-md flex justify-center items-center font-poppins">Atualizar produto</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    {% include 'accounts/footer.html' %}
+  </body>
+</html>
