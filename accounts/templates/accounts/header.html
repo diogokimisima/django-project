@@ -22,7 +22,7 @@
       {% if user.is_superuser %}
         <a href="{% url 'add_produto' %}" class="flex bg-tomato-100 gap-2 py-3 px-11 rounded-md hover:bg-tomato-200 transition duration-200 ease-in-out text-light-100">Adicionar Produto</a>
       {% else %}
-        <a href="" class="flex bg-tomato-100 gap-2 py-3 px-11 rounded-md hover:bg-tomato-200 transition duration-200 ease-in-out">
+        <a href="{% url 'pedidos' %}" class="flex bg-tomato-100 gap-2 py-3 px-11 rounded-md hover:bg-tomato-200 transition duration-200 ease-in-out">
           <img class="text-light-100" src="{% static 'accounts/images/pedido.svg' %}" alt="logo-pedido" />
           <p class="text-light-100 text-sm font-poppins text-[14px]">Pedidos (0)</p>
         </a>

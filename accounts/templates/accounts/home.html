@@ -25,7 +25,7 @@
 
         <div class="flex flex-col justify-center mx-auto mt-16 mb-10 max-w-[1350px]">
           <div class="ml-5">
-            <h3 class="text-light-300 font-poppins text-3xl" >Refeições</h3>
+            <h3 class="text-light-300 font-poppins text-3xl">Refeições</h3>
           </div>
           <div class="flex flex-wrap justify-center gap-14 mt-6">
             {% for produto in produtos %}
@@ -39,14 +39,23 @@
                   {% if user.is_superuser %}
 
                   {% else %}
-                    <div class="flex items-center gap-4">
+                    {% comment %} <div class="flex items-center gap-4">
                       <button><img src="{% static 'accounts/images/minus.svg' %}" alt="icon minus" /></button>
                       <p class="font-bold text-[20px]">01</p>
                       <button><img src="{% static 'accounts/images/plus.svg' %}" alt="icon plus" /></button>
                       <div class="bg-tomato-100 hover:bg-tomato-200 transition duration-200 ease-in-out rounded-md py-3 px-6">
                         <button class="">Incluir</button>
                       </div>
-                    </div>
+                    </div> {% endcomment %}
+                    {% if user.is_authenticated %}
+                      <form action="{% url 'incluir_pedido' produto.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="flex items-center gap-4">
+                          <input type="number" name="quantidade" value="1" min="1" class="border p-1 w-16" />
+                          <button class="bg-tomato-100 hover:bg-tomato-200 transition duration-200 ease-in-out rounded-md py-3 px-6">Incluir</button>
+                        </div>
+                      </form>
+                    {% endif %}
                   {% endif %}
                 {% endif %}
 

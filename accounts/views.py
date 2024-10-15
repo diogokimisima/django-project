@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate, login
-from .models import Produto
+from .models import Produto, Pedido
 from .forms import RegisterForm, ProdutoForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -83,5 +83,23 @@ def delete_produto(request, produto_id):
         messages.success(request, 'Produto deletado com sucesso!')
         return redirect('home')
     return redirect('update_produto', id=produto_id)
+
+@login_required
+def incluir_pedido(request, produto_id):
+    produto = get_object_or_404(Produto, id=produto_id)
+
+    if request.method == 'POST':
+        quantidade = int(request.POST.get('quantidade', 1))  # Pega a quantidade do formulário
+        pedido = Pedido(usuario=request.user, produto=produto, quantidade=quantidade)
+        pedido.save()
+        messages.success(request, 'Produto incluído no pedido com sucesso!')
+        return redirect('pedidos')  # Redireciona para a página de pedidos
+
+    return redirect('home')  # Redireciona para a home se não for POST
+
+@login_required
+def pedidos_view(request):
+    pedidos = Pedido.objects.filter(usuario=request.user)
+    return render(request, 'accounts/pedidos.html', {'pedidos': pedidos})
 
 

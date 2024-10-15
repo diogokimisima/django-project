@@ -1,0 +1,46 @@
+<!-- pedidos.html -->
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meus Pedidos</title>
+    {% tailwind_css %}
+  </head>
+  <body class="bg-dark-400">
+    <div>
+      {% include 'accounts/header.html' %}
+
+      <div class="mt-36">
+        <h2 class="text-light-300 text-3xl font-poppins">Meus Pedidos</h2>
+        <table class="mt-5 w-full">
+          <thead>
+            <tr>
+              <th class="text-light-300">Produto</th>
+              <th class="text-light-300">Quantidade</th>
+              <th class="text-light-300">Preço Total</th>
+              <th class="text-light-300">Data de Criação</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for pedido in pedidos %}
+              <tr class="bg-dark-200">
+                <td class="text-light-400">{{ pedido.produto.nome }}</td>
+                <td class="text-light-400">{{ pedido.quantidade }}</td>
+                <td class="text-light-400">R$ {{ pedido.preco_total }}</td>
+                <td class="text-light-400">{{ pedido.data_criacao }}</td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="4" class="text-center text-light-400">Nenhum pedido encontrado.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {% include 'accounts/footer.html' %}
+  </body>
+</html>

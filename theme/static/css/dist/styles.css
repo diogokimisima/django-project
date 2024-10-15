@@ -956,6 +956,10 @@ select {
   margin-top: -2.75rem;
 }
 
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
 .block {
   display: block;
 }
@@ -1070,6 +1074,10 @@ select {
 
 .w-\[1000px\] {
   width: 1000px;
+}
+
+.w-16 {
+  width: 4rem;
 }
 
 .max-w-\[1220px\] {
@@ -1303,6 +1311,10 @@ select {
 
 .p-6 {
   padding: 1.5rem;
+}
+
+.p-1 {
+  padding: 0.25rem;
 }
 
 .px-11 {
