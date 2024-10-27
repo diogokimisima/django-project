@@ -1,11 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class Categoria(models.Model):
+    nome = models.CharField(max_length=255)
+    descricao = models.TextField(blank=True, null=True)  # Campo opcional para descrição da categoria
+
+    def __str__(self):
+        return self.nome
+
 class Produto(models.Model):
     nome = models.CharField(max_length=255)
     preco = models.DecimalField(max_digits=10, decimal_places=2)
-    imagem = models.ImageField(upload_to='produtos/')
+    imagem = models.ImageField(upload_to='produtos/', default='produtos/default.jpg')
     descricao = models.TextField()
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, null=True, blank=True, related_name='produtos')
 
     def is_favorito(self, usuario):
         return self.favorito_set.filter(usuario=usuario).exists()
@@ -30,3 +38,4 @@ class Favorito(models.Model):
 
     class Meta:
         unique_together = ('usuario', 'produto')
+

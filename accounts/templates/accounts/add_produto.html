@@ -20,9 +20,9 @@
 
         <h1 class="font-poppins text-[32px] text-light-300">Adicionar prato</h1>
 
-        <div >
+        <div>
           <div class="flex gap-8">
-            <div class="flex flex-col gap-4 ">
+            <div class="flex flex-col gap-4">
               <label for="id_imagem" class="text-light-400">Imagem do prato</label>
               <input class="hidden" type="file" name="imagem" id="id_imagem" accept="image/*" />
               <div class="flex items-center gap-2 bg-dark-800 py-5 px-8 rounded-lg hover:bg-dark-1000 cursor-pointer" onclick="document.getElementById('id_imagem').click();">
@@ -61,6 +61,25 @@
               {% if form.preco.errors %}
                 <div class="text-red-500 mt-2">
                   {% for error in form.preco.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="flex flex-col gap-4">
+              <label class="text-light-400" for="id_categoria">Categoria</label>
+              <div class="flex gap-2 bg-dark-800 py-3 px-8 rounded-lg">
+                <select name="categoria" id="id_categoria" class="font-poppins bg-dark-800 focus:border-none border-none">
+                  <option class="text-dark-200" value="">Selecione uma categoria</option>
+                  {% for categoria in categorias %}
+                    <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              {% if form.categoria.errors %}
+                <div class="text-red-500 mt-2">
+                  {% for error in form.categoria.errors %}
                     <p>{{ error }}</p>
                   {% endfor %}
                 </div>

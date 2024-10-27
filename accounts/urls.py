@@ -10,6 +10,7 @@ urlpatterns = [
     path('pedidos/', views.pedidos_view, name='pedidos'),
     path('add-produto/', views.add_produto_view, name='add_produto'),
     path('favoritos/', views.favoritos_view, name='favoritos_view'),
+    path('add-categoria/', views.add_categoria_view, name='add_categoria'),
 
     path('incluir-pedido/<int:produto_id>/', views.incluir_pedido, name='incluir_pedido'),
     path('pedidos/delete/<int:id>/', views.delete_pedido, name='delete_pedido'),

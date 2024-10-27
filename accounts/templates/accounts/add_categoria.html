@@ -1,0 +1,63 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adicionar Produto</title>
+    {% tailwind_css %}
+  </head>
+  <body class="bg-dark-400">
+    {% include 'accounts/header.html' %}
+
+    <div class="flex flex-col justify-center mx-auto">
+      <form method="POST" enctype="multipart/form-data" class="flex flex-col justify-center items-start max-w-[1320px] gap-7 mt-[180px] mx-auto">
+        {% csrf_token %}
+        <a href="{% url 'home' %}" class="flex items-center">
+          <img class="w-8 h-8" src="{% static 'accounts/images/back.svg' %}" alt="back" />
+          <p class="font-bold font-poppins text-light-300 text-2xl">voltar</p>
+        </a>
+
+        <h1 class="font-poppins text-[32px] text-light-300">Adicionar categoria</h1>
+
+        <div >
+          <div class="flex gap-8">
+            <div class="flex flex-col gap-4">
+              <label class="text-light-400" for="id_nome">Nome da Categoria:</label>
+              <div class="flex gap-2 bg-dark-800 py-3 px-8 rounded-lg">
+                <input class="font-poppins bg-dark-800 focus:border-none border-none" type="text" name="nome" id="id_nome" placeholder="Ex.: Entrada" value="{{ form.nome.value|default_if_none:'' }}" />
+              </div>
+              {% if form.nome.errors %}
+                <div class="text-red-500 mt-2">
+                  {% for error in form.nome.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+          </div>
+
+          <div class="flex flex-col gap-4 mt-10">
+            <label class="text-light-400" for="id_descricao">Descrição</label>
+            <div class="flex gap-2 bg-dark-800 py-3 px-8 rounded-lg">
+              <input class="w-full pb-28 font-poppins bg-dark-800 focus:border-none border-none" name="descricao" type="text" id="id_descricao" class="form-control" placeholder="Fale brevemente sobre o prato, seus ingredientes e composição" value="{{ form.descricao.value|default_if_none:'' }}" />
+            </div>
+            {% if form.descricao.errors %}
+              <div class="text-red-500 mt-2">
+                {% for error in form.descricao.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+          <div class="flex justify-end">
+            <button type="submit" class="mt-10 px-6 py-3 bg-tomato-100 rounded-md hover:bg-tomato-200 transition duration-200 ease-in-out">Salvar alterações</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    {% include 'accounts/footer.html' %}
+  </body>
+</html>

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate, login
-from .models import Produto, Pedido, Favorito
-from .forms import RegisterForm, ProdutoForm
+from .models import Produto, Pedido, Favorito, Categoria
+from .forms import RegisterForm, ProdutoForm, CategoriaForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 
@@ -62,7 +62,10 @@ def add_produto_view(request):
             return redirect('home')
     else:
         form = ProdutoForm()
-    return render(request, 'accounts/add_produto.html', {'form': form})    
+
+    categorias = Categoria.objects.all()
+
+    return render(request, 'accounts/add_produto.html', {'form': form, 'categorias': categorias})    
 
 # View para editar produto (restrito a admins)
 @login_required
@@ -78,7 +81,9 @@ def update_produto(request, id):
     else:
         form = ProdutoForm(instance=produto)
 
-    return render(request, 'accounts/update_produto.html', {'form': form, 'produto': produto})
+    categorias = Categoria.objects.all()
+
+    return render(request, 'accounts/update_produto.html', {'form': form, 'produto': produto, 'categorias': categorias})
 
 @login_required
 @user_passes_test(is_admin)
@@ -133,3 +138,16 @@ def toggle_favorito(request, produto_id):
 def favoritos_view(request):
     favoritos = Favorito.objects.filter(usuario=request.user).select_related('produto')
     return render(request, 'accounts/favoritos.html', {'favoritos': favoritos})
+
+@login_required
+@user_passes_test(is_admin)
+def add_categoria_view(request):
+    if request.method == 'POST':
+        form = CategoriaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Categoria criada com sucesso!')
+            return redirect('home')
+    else:
+        form = CategoriaForm()
+    return render(request, 'accounts/add_categoria.html', {'form': form})
