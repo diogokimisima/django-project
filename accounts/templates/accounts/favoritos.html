@@ -6,8 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Meus Favoritos</title>
     {% tailwind_css %}
+    <script>
+      function increment(inputId) {
+        const input = document.getElementById(inputId);
+        input.value = parseInt(input.value) + 1;
+      }
+      
+      function decrement(inputId) {
+        const input = document.getElementById(inputId);
+        if (parseInt(input.value) > 1) {
+          input.value = parseInt(input.value) - 1;
+        }
+      }
+    </script>
+    <style>
+      input[type='number']::-webkit-inner-spin-button,
+      input[type='number']::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      
+      input[type='number'] {
+        -moz-appearance: textfield;
+      }
+    </style>
   </head>
-  <body class="bg-dark-400">
+  <body class="bg-dark-400 h-full">
     <div>
       {% include 'accounts/header.html' %}
 
@@ -19,18 +43,32 @@
           </a>
         </div>
         <h1 class="font-poppins text-[32px]">Meus Favoritos</h1>
-        <ul class="flex flex-wrap gap-x-12 gap-y-7">
+        <div class="flex flex-wrap justify-center gap-7">
           {% for favorito in favoritos %}
-            <li class="flex items-center space-x-4"> <!-- Espaçamento entre imagem e texto -->
+            <div class="flex flex-col justify-center items-center bg-dark-200 w-72 rounded-lg gap-[15px] p-6 relative">
               {% if favorito.produto.imagem %} <!-- Verifica se a imagem existe -->
-                <img src="{{ favorito.produto.imagem.url }}" alt="{{ favorito.produto.nome }}" class="w-20 h-20 object-cover" /> <!-- Ajuste o tamanho conforme necessário -->
+                <img class="w-44 h-44" src="{{ favorito.produto.imagem.url }}" alt="{{ favorito.produto.nome }}" class="object-cover" /> <!-- Ajuste o tamanho conforme necessário -->
               {% endif %}
-              <a href="">{{ favorito.produto.nome }} - R$ {{ favorito.produto.preco }}</a>
-            </li>
+              <h4 class="font-poppins text-2xl font-semibold text-light-300">{{ favorito.produto.nome }}</h4>
+              <p class="text-light-400 text-[14px] text-center">{{ favorito.produto.descricao }}</p>
+              <p class="text-cake-200 text-[32px]">R$ {{ favorito.produto.preco }}</p>
+
+              {% if user.is_authenticated and not user.is_superuser %} <!-- Verifica se o usuário está autenticado -->
+                <form class="flex gap-4" action="{% url 'incluir_pedido' favorito.produto.id %}" method="POST">
+                  {% csrf_token %}
+                  <div class="flex items-center gap-2">
+                    <button type="button" onclick="decrement('quantidade-{{ favorito.produto.id }}')"><img src="{% static 'accounts/images/minus.svg' %}" alt="icon minus" /></button>
+                    <input type="number" id="quantidade-{{ favorito.produto.id }}" name="quantidade" value="1" min="1" class="border-none p-1 w-8 text-center bg-transparent" />
+                    <button type="button" onclick="increment('quantidade-{{ favorito.produto.id }}')"><img src="{% static 'accounts/images/plus.svg' %}" alt="icon plus" /></button>
+                  </div>
+                  <button type="submit" class="bg-tomato-100 hover:bg-tomato-200 transition duration-200 ease-in-out rounded-md py-3 px-6">Incluir</button>
+                </form>
+              {% endif %}
+            </div>
           {% empty %}
             <p>Você não tem produtos favoritos.</p>
           {% endfor %}
-        </ul>
+        </div>
       </div>
     </div>
 
