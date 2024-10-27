@@ -1,4 +1,3 @@
-<!-- pedidos.html -->
 {% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -12,32 +11,37 @@
     <div>
       {% include 'accounts/header.html' %}
 
-      <div class="mt-36">
-        <h2 class="text-light-300 text-3xl font-poppins">Meus Pedidos</h2>
-        <table class="mt-5 w-full">
-          <thead>
-            <tr>
-              <th class="text-light-300">Produto</th>
-              <th class="text-light-300">Quantidade</th>
-              <th class="text-light-300">Preço Total</th>
-              <th class="text-light-300">Data de Criação</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for pedido in pedidos %}
-              <tr class="bg-dark-200">
-                <td class="text-light-400">{{ pedido.produto.nome }}</td>
-                <td class="text-light-400">{{ pedido.quantidade }}</td>
-                <td class="text-light-400">R$ {{ pedido.preco_total }}</td>
-                <td class="text-light-400">{{ pedido.data_criacao }}</td>
-              </tr>
-            {% empty %}
-              <tr>
-                <td colspan="4" class="text-center text-light-400">Nenhum pedido encontrado.</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+      <div class="flex flex-col items-start mx-auto max-w-[1300px] mt-[150px] px-10 space-y-10">
+        <div class="space-y-4">
+          <a href="{% url 'home' %}" class="flex items-center">
+            <img class="w-8 h-8" src="{% static 'accounts/images/back.svg' %}" alt="back" />
+            <p class="font-bold font-poppins text-light-300 text-2xl">voltar</p>
+          </a>
+        </div>
+        <h1 class="font-poppins text-[32px]">Meu pedido</h1>
+        <div class="flex flex-wrap gap-x-12 gap-y-7">
+          {% for pedido in pedidos %}
+            <div class="flex items-center gap-3">
+              <img class="w-[72px] h-[72px]" src="{{ pedido.produto.imagem.url }}" alt="imagem produto" />
+              <div>
+                <h2 class="font-poppins text-[20px]">{{ pedido.quantidade }} x {{ pedido.produto.nome }}</h2>
+                <div class="flex">
+                  <form method="POST" action="{% url 'delete_pedido' pedido.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="text-tomato-400 text-[12px]">Excluir</button>
+                  </form>
+                  <span class="text-[12px] text-light-400 ml-20">R$ {{ pedido.preco_total }}</span>
+                </div>
+              </div>
+            </div>
+          {% empty %}
+            <span colspan="4" class="text-center text-light-400">Nenhum pedido encontrado.</span>
+          {% endfor %}
+        </div>
+
+        <p class="font-poppins text-[20px]">Total: R$ {{ total }}</p>
+
+        <button class="font-poppins text-[14px] px-20 py-3 bg-tomato-200 rounded-md">Avançar</button>
       </div>
     </div>
 

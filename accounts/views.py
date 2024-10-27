@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate, login
-from .models import Produto, Pedido
+from .models import Produto, Pedido, Favorito
 from .forms import RegisterForm, ProdutoForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -35,9 +35,15 @@ def login_view(request):
     return render(request, 'accounts/login.html')
 
 # View de Home (apenas usuários logados podem acessar)
-@login_required(login_url='login') 
+@login_required(login_url='login')
 def home_view(request):
     produtos = Produto.objects.all()
+    favoritos = Favorito.objects.filter(usuario=request.user).values_list('produto_id', flat=True)
+
+    # Adiciona a flag `is_favorito` a cada produto
+    for produto in produtos:
+        produto.is_favorito = produto.id in favoritos
+
     return render(request, 'accounts/home.html', {'produtos': produtos})
 
 # Verifica se o usuário é admin
@@ -100,6 +106,30 @@ def incluir_pedido(request, produto_id):
 @login_required
 def pedidos_view(request):
     pedidos = Pedido.objects.filter(usuario=request.user)
-    return render(request, 'accounts/pedidos.html', {'pedidos': pedidos})
+    total = sum(pedido.preco_total for pedido in pedidos)
+    return render(request, 'accounts/pedidos.html', {'pedidos': pedidos, 'total': total})
 
+@login_required
+def delete_pedido(request, id):
+    pedido = get_object_or_404(Pedido, id=id, usuario=request.user)
+    if request.method == 'POST':
+        pedido.delete()
+        messages.success(request, 'Pedido excluído com sucesso!')
+        return redirect('pedidos')
+    return redirect('pedidos')
 
+@login_required
+def toggle_favorito(request, produto_id):
+    produto = get_object_or_404(Produto, id=produto_id)
+    favorito, created = Favorito.objects.get_or_create(usuario=request.user, produto=produto)
+
+    if not created:
+        favorito.delete()  # Se já existe, remove dos favoritos
+
+    # Redireciona para a página anterior ou para 'home' caso não tenha referência
+    return redirect(request.META.get('HTTP_REFERER', 'home'))
+
+@login_required
+def favoritos_view(request):
+    favoritos = Favorito.objects.filter(usuario=request.user).select_related('produto')
+    return render(request, 'accounts/favoritos.html', {'favoritos': favoritos})

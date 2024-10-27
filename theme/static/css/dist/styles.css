@@ -960,6 +960,30 @@ select {
   margin-top: 1.25rem;
 }
 
+.ml-20 {
+  margin-left: 5rem;
+}
+
+.mt-\[150px\] {
+  margin-top: 150px;
+}
+
+.ml-10 {
+  margin-left: 2.5rem;
+}
+
+.ml-12 {
+  margin-left: 3rem;
+}
+
+.ml-14 {
+  margin-left: 3.5rem;
+}
+
+.ml-16 {
+  margin-left: 4rem;
+}
+
 .block {
   display: block;
 }
@@ -1028,6 +1052,10 @@ select {
   height: 100vh;
 }
 
+.h-\[72px\] {
+  height: 72px;
+}
+
 .w-1\/2 {
   width: 50%;
 }
@@ -1080,6 +1108,10 @@ select {
   width: 4rem;
 }
 
+.w-\[72px\] {
+  width: 72px;
+}
+
 .max-w-\[1220px\] {
   max-width: 1220px;
 }
@@ -1118,6 +1150,10 @@ select {
 
 .max-w-\[1000px\] {
   max-width: 1000px;
+}
+
+.max-w-\[1300px\] {
+  max-width: 1300px;
 }
 
 .flex-1 {
@@ -1216,6 +1252,31 @@ select {
   gap: 15px;
 }
 
+.gap-3 {
+  gap: 0.75rem;
+}
+
+.gap-x-12 {
+  -moz-column-gap: 3rem;
+       column-gap: 3rem;
+}
+
+.gap-y-7 {
+  row-gap: 1.75rem;
+}
+
+.space-y-10 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(2.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(2.5rem * var(--tw-space-y-reverse));
+}
+
+.space-y-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(1rem * var(--tw-space-y-reverse));
+}
+
 .rounded-lg {
   border-radius: 0.5rem;
 }
@@ -1301,6 +1362,15 @@ select {
   background-color: rgb(239 68 68 / var(--tw-bg-opacity));
 }
 
+.bg-tomato-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(146 0 14 / var(--tw-bg-opacity));
+}
+
+.bg-transparent {
+  background-color: transparent;
+}
+
 .bg-gradient-100 {
   background-image: linear-gradient(to bottom, #091E26 0%, #00131C 100%);
 }
@@ -1315,6 +1385,10 @@ select {
 
 .p-1 {
   padding: 0.25rem;
+}
+
+.p-0 {
+  padding: 0px;
 }
 
 .px-11 {
@@ -1370,6 +1444,11 @@ select {
 .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+}
+
+.px-10 {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
 }
 
 .pb-28 {
@@ -1436,6 +1515,10 @@ select {
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+
+.text-\[12px\] {
+  font-size: 12px;
 }
 
 .font-bold {
@@ -1519,6 +1602,11 @@ select {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.text-tomato-400 {
+  --tw-text-opacity: 1;
+  color: rgb(171 77 85 / var(--tw-text-opacity));
 }
 
 .filter {

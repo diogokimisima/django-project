@@ -1,0 +1,39 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meus Favoritos</title>
+    {% tailwind_css %}
+  </head>
+  <body class="bg-dark-400">
+    <div>
+      {% include 'accounts/header.html' %}
+
+      <div class="flex flex-col items-start mx-auto max-w-[1300px] mt-[150px] px-10 space-y-10">
+        <div class="space-y-4">
+          <a href="{% url 'home' %}" class="flex items-center">
+            <img class="w-8 h-8" src="{% static 'accounts/images/back.svg' %}" alt="back" />
+            <p class="font-bold font-poppins text-light-300 text-2xl">voltar</p>
+          </a>
+        </div>
+        <h1 class="font-poppins text-[32px]">Meus Favoritos</h1>
+        <ul class="flex flex-wrap gap-x-12 gap-y-7">
+          {% for favorito in favoritos %}
+            <li class="flex items-center space-x-4"> <!-- Espaçamento entre imagem e texto -->
+              {% if favorito.produto.imagem %} <!-- Verifica se a imagem existe -->
+                <img src="{{ favorito.produto.imagem.url }}" alt="{{ favorito.produto.nome }}" class="w-20 h-20 object-cover" /> <!-- Ajuste o tamanho conforme necessário -->
+              {% endif %}
+              <a href="">{{ favorito.produto.nome }} - R$ {{ favorito.produto.preco }}</a>
+            </li>
+          {% empty %}
+            <p>Você não tem produtos favoritos.</p>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    {% include 'accounts/footer.html' %}
+  </body>
+</html>
