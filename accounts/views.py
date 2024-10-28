@@ -74,7 +74,12 @@ def update_produto(request, id):
     produto = get_object_or_404(Produto, id=id)
 
     if request.method == 'POST':
-        form = ProdutoForm(request.POST, request.FILES, instance=produto)
+        # Normalize price input (replace comma with dot)
+        preco = request.POST.get('preco', '').replace(',', '.')
+        data = request.POST.copy()
+        data['preco'] = preco
+
+        form = ProdutoForm(data, request.FILES, instance=produto)
         if form.is_valid():
             form.save()
             return redirect('home')  # Redireciona após salvar

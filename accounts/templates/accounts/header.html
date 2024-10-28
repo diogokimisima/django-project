@@ -20,7 +20,8 @@
 
   {% if user.is_authenticated %}
     {% if user.is_superuser %}
-      <a href="{% url 'add_produto' %}" class="flex bg-tomato-100 gap-2 py-3 px-11 rounded-md hover:bg-tomato-200 transition duration-200 ease-in-out text-light-100">Adicionar Produto</a>
+      <a href="{% url 'add_produto' %}" class="flex bg-tomato-100 gap-2 py-3 px-6 rounded-md hover:bg-tomato-200 transition duration-200 ease-in-out text-light-100">Adicionar Produto</a>
+      <a href="{% url 'add_categoria' %}" class="flex bg-tomato-100 gap-2 py-3 px-6 rounded-md hover:bg-tomato-200 transition duration-200 ease-in-out text-light-100">Adicionar Categoria</a>
     {% else %}
       <div class="relative">
         <a href="{% url 'pedidos' %}">

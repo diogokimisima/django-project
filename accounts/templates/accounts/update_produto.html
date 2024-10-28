@@ -68,24 +68,35 @@
               {% endif %}
             </div>
 
-            <div class="flex flex-col gap-4">
-              <label class="text-light-400" for="id_categoria">Categoria</label>
-              <div class="flex gap-2 bg-dark-800 py-3 px-8 rounded-lg">
-                <select name="categoria" id="id_categoria" class="font-poppins bg-dark-800 focus:border-none border-none">
-                  <option class="text-dark-200">{{ form.categoria.value|default_if_none:'' }}</option>
-                  {% for categoria in categorias %}
-                    <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-              {% if form.categoria.errors %}
-                <div class="text-red-500 mt-2">
-                  {% for error in form.categoria.errors %}
-                    <p>{{ error }}</p>
-                  {% endfor %}
-                </div>
-              {% endif %}
-            </div>
+<div class="flex flex-col gap-4">
+  <label class="text-light-400" for="id_categoria">Categoria</label>
+
+  <div class="flex gap-2 bg-dark-800 py-3 px-8 rounded-lg">
+    <select 
+      name="categoria" 
+      id="id_categoria" 
+      class="font-poppins bg-dark-800 focus:outline-none focus:ring-2 focus:ring-light-400 border-none w-full"
+    >
+      {% for categoria in categorias %}
+        <option 
+          value="{{ categoria.id }}" 
+          {% if form.instance.categoria.id == categoria.id %}selected{% endif %}
+        >
+          {{ categoria.nome }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  {% if form.categoria.errors %}
+    <div class="text-red-500 mt-2">
+      {% for error in form.categoria.errors %}
+        <p>{{ error }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
           </div>
 
           <div class="flex flex-col gap-4 mt-10">
