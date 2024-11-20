@@ -2,10 +2,10 @@
 <header class="bg-dark-600 h-[104px] flex justify-center items-center gap-8 w-full fixed top-0 z-50">
   <div class="flex items-center gap-8">
     <div class="flex flex-col items-end">
-      <div class="flex">
+      <a href="{% url 'home' %}" class="flex">
         <img class="h-8 w-8 mr-3" src="{% static 'accounts/images/food_explorer_logo.svg' %}" alt="logo" />
         <h1 class="text-light-100 text-2xl font-bold">Food Explorer</h1>
-      </div>
+      </a>
       {% if user.is_authenticated %}
         {% if user.is_superuser %}
           <p class="text-cake-200 text-small -mt-1">admin</p>
@@ -19,7 +19,7 @@
     
         <!-- Filtro por categoria -->
         <select name="categoria" class="bg-dark-500 rounded-lg focus:ring-0 text-light-300 border-none focus:outline-none">
-            <option value="" {% if not request.GET.categoria %}selected{% endif %}>Selecione uma categoria</option>
+            <option value="" {% if not request.GET.categoria %}selected{% endif %}>Todas as categorias</option>
             {% for categoria in categorias %}
                 <option value="{{ categoria.id }}" {% if categoria.id|stringformat:"s" == request.GET.categoria %}selected{% endif %}>{{ categoria.nome }}</option>
             {% endfor %}

@@ -5,6 +5,7 @@ from .forms import RegisterForm, ProdutoForm, CategoriaForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
+from django.http import JsonResponse
 
 # View de registro
 def register(request):
@@ -38,32 +39,32 @@ def login_view(request):
 # View de Home (apenas usuários logados podem acessar)
 @login_required(login_url='login')
 def home_view(request):
-    # Obtenha todos os produtos e categorias
     produtos = Produto.objects.all()
     categorias = Categoria.objects.all()
 
-    # Filtrando pelos parâmetros de busca
     search = request.GET.get('search', '')
     if search:
         produtos = produtos.filter(nome__icontains=search) | produtos.filter(descricao__icontains=search)
 
-    # Filtrando por categoria
     categoria_id = request.GET.get('categoria')
     if categoria_id:
         produtos = produtos.filter(categoria__id=categoria_id)
 
-    # Verifica os produtos favoritados pelo usuário logado
     favoritos = Favorito.objects.filter(usuario=request.user).values_list('produto_id', flat=True)
 
-    # Adiciona a flag `is_favorito` a cada produto
     for produto in produtos:
         produto.is_favorito = produto.id in favoritos
 
+    produtos_por_categoria = {}
+    for categoria in categorias:
+        produtos_por_categoria[categoria] = produtos.filter(categoria=categoria)
+
     return render(request, 'accounts/home.html', {
-        'produtos': produtos,
+        'produtos_por_categoria': produtos_por_categoria,
         'categorias': categorias,
-        'selected_categoria': categoria_id  # Passando a categoria selecionada para manter o estado
+        'selected_categoria': categoria_id
     })
+
 
 
 # Verifica se o usuário é admin
@@ -94,7 +95,6 @@ def update_produto(request, id):
     produto = get_object_or_404(Produto, id=id)
 
     if request.method == 'POST':
-        # Normalize price input (replace comma with dot)
         preco = request.POST.get('preco', '').replace(',', '.')
         data = request.POST.copy()
         data['preco'] = preco
@@ -125,13 +125,13 @@ def incluir_pedido(request, produto_id):
     produto = get_object_or_404(Produto, id=produto_id)
 
     if request.method == 'POST':
-        quantidade = int(request.POST.get('quantidade', 1))  # Pega a quantidade do formulário
+        quantidade = int(request.POST.get('quantidade', 1)) 
         pedido = Pedido(usuario=request.user, produto=produto, quantidade=quantidade)
         pedido.save()
-        messages.success(request, 'Produto incluído no pedido com sucesso!')
-        return redirect('pedidos')  # Redireciona para a página de pedidos
 
-    return redirect('home')  # Redireciona para a home se não for POST
+        return JsonResponse({'success': True, 'message': 'Produto incluído no pedido com sucesso!'})
+
+    return JsonResponse({'success': False, 'message': 'Erro ao incluir o produto.'})
 
 @login_required
 def pedidos_view(request):
@@ -154,10 +154,9 @@ def toggle_favorito(request, produto_id):
     favorito, created = Favorito.objects.get_or_create(usuario=request.user, produto=produto)
 
     if not created:
-        favorito.delete()  # Se já existe, remove dos favoritos
-
-    # Redireciona para a página anterior ou para 'home' caso não tenha referência
-    return redirect(request.META.get('HTTP_REFERER', 'home'))
+        favorito.delete()  
+    message = "Produto adicionado aos favoritos!" if created else "Produto removido dos favoritos!"
+    return JsonResponse({'success': True, 'message': message})
 
 @login_required
 def favoritos_view(request):

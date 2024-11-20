@@ -1,11 +1,13 @@
 {% load static tailwind_tags %}
+
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
-    {% tailwind_css %}
+    {% tailwind_css %}]<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
       function increment(inputId) {
         const input = document.getElementById(inputId)
@@ -18,6 +20,82 @@
           input.value = parseInt(input.value) - 1
         }
       }
+      
+      function showToast(message) {
+        Toastify({
+          text: message,
+          duration: 3000, // Duração do toast (3 segundos)
+          close: true,
+          gravity: 'top', // Posição do toast (topo ou fundo)
+          position: 'right', // Posição do toast (direita ou esquerda)
+          backgroundColor: '#4caf50', // Cor de fundo (verde para sucesso)
+          stopOnFocus: true // Para o toast se o usuário interagir com ele
+        }).showToast()
+      }
+      
+      function submitForm(event, produtoId) {
+        event.preventDefault() // Impede o envio padrão do formulário
+      
+        const form = event.target
+        const formData = new FormData(form) // Cria um objeto FormData com os dados do formulário
+      
+        // Realiza o envio do formulário via fetch (AJAX)
+        fetch(form.action, {
+          method: 'POST',
+          body: formData
+        })
+          .then((response) => response.json()) // Espera uma resposta em JSON
+          .then((data) => {
+            if (data.success) {
+              // Se o envio foi bem-sucedido, mostramos o toast
+              showToast(data.message)
+      
+              // Opcional: Limpar o campo de quantidade ou qualquer outra ação
+              document.getElementById(`quantidade-${produtoId}`).value = 1
+            } else {
+              // Caso haja um erro, pode mostrar uma mensagem de erro
+              showToast(data.message)
+            }
+          })
+          .catch((error) => {
+            // Em caso de erro na requisição
+            console.error('Erro:', error)
+            showToast('Erro inesperado.')
+          })
+      }
+      
+      function toggleFavorito(produtoId) {
+        const url = `{% url 'toggle_favorito' '0' %}`.replace('0', produtoId); // Substitui o '0' pelo id do produto
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',
+          },
+          body: JSON.stringify({ produto_id: produtoId })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            showToast(data.message);
+            
+            // Atualiza o ícone de favorito
+            const favIcon = document.getElementById(`fav-icon-${produtoId}`);
+            if (data.message.includes("adicionado")) {
+              favIcon.src = "{% static 'accounts/images/favorite-hover.svg' %}";
+            } else {
+              favIcon.src = "{% static 'accounts/images/favorite.svg' %}";
+            }
+          } else {
+            showToast(data.message);
+          }
+        })
+        .catch(error => {
+          console.error("Erro:", error);
+          showToast("Erro inesperado.");
+        });
+      }
+      
     </script>
     <style>
       input[type='number']::-webkit-inner-spin-button,
@@ -46,50 +124,58 @@
       </div>
 
       <div class="flex flex-col justify-center mx-auto mt-16 mb-10 max-w-[1350px]">
-        <div class="ml-16">
-          <h3 class="text-light-300 font-poppins text-3xl">Cardápio</h3>
-        </div>
-        <div class="flex flex-wrap justify-center gap-7 mt-6">
-          {% for produto in produtos %}
-            <div class="flex flex-col justify-center items-center bg-dark-200 w-72 rounded-lg gap-[15px] p-6 relative">
-              <img class="w-44 h-44" src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" />
-              <h4 class="font-poppins text-2xl font-semibold text-light-300">{{ produto.nome }}</h4>
-              <p class="text-light-400 text-[14px] text-center">{{ produto.descricao }}</p>
-              <p class="text-cake-200 text-[32px]">R$ {{ produto.preco }}</p>
+        <h3 class="text-light-300 font-poppins text-4xl">Cardápio</h3>
 
-              {% if user.is_authenticated and not user.is_superuser %}
-                <form class="flex gap-4" action="{% url 'incluir_pedido' produto.id %}" method="POST">
-                  {% csrf_token %}
-                  <div class="flex items-center gap-2">
-                    <button type="button" onclick="decrement('quantidade-{{ produto.id }}')"><img src="{% static 'accounts/images/minus.svg' %}" alt="icon minus" /></button>
-                    <input type="number" id="quantidade-{{ produto.id }}" name="quantidade" value="1" min="1" class="border-none p-1 w-8 text-center bg-transparent" />
-                    <button type="button" onclick="increment('quantidade-{{ produto.id }}')"><img src="{% static 'accounts/images/plus.svg' %}" alt="icon plus" /></button>
-                  </div>
-                  <button type="submit" class="bg-tomato-100 hover:bg-tomato-200 transition duration-200 ease-in-out rounded-md py-3 px-6">Incluir</button>
-                </form>
-              {% endif %}
+        <!-- Iterando pelas categorias -->
+        {% for categoria, produtos in produtos_por_categoria.items %}
+          <div class="mt-10">
+            <h4 class="text-light-300 font-poppins text-2xl">{{ categoria }}</h4>
+            <div class="flex flex-wrap justify-center gap-7 mt-6">
+              {% for produto in produtos %}
+                <div class="flex flex-col justify-center items-center bg-dark-200 w-72 rounded-lg gap-[15px] p-6 relative">
+                  <img class="w-44 h-44" src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" />
+                  <h4 class="font-poppins text-2xl font-semibold text-light-300">{{ produto.nome }}</h4>
+                  <p class="text-light-400 text-[14px] text-center">{{ produto.descricao }}</p>
+                  <p class="text-cake-200 text-[32px]">R$ {{ produto.preco }}</p>
 
-              {% if user.is_authenticated %}
-                {% if user.is_superuser %}
-                  <a href="{% url 'update_produto' produto.id %}" class="absolute top-4 right-5"><img class="w-6 h-6" src="{% static 'accounts/images/pencil.svg' %}" alt="icon edit" /></a>
-                {% else %}
-                  <form action="{% url 'toggle_favorito' produto.id %}" method="POST" class="absolute top-4 right-5">
-                    {% csrf_token %}
-                    <button type="submit">
-                      {% if produto.is_favorito %}
-                        <img class="w-6 h-6" src="{% static 'accounts/images/favorite-hover.svg' %}" alt="icon favorite" />
-                      {% else %}
-                        <img class="w-6 h-6" src="{% static 'accounts/images/favorite.svg' %}" alt="icon favorite" />
-                      {% endif %}
-                    </button>
-                  </form>
-                {% endif %}
-              {% endif %}
+                  {% if user.is_authenticated and not user.is_superuser %}
+                    <form id="incluirPedidoForm" class="flex gap-4" action="{% url 'incluir_pedido' produto.id %}" method="POST" onsubmit="submitForm(event, {{ produto.id }})">
+                      {% csrf_token %}
+                      <div class="flex items-center gap-2">
+                        <button type="button" onclick="decrement('quantidade-{{ produto.id }}')"><img src="{% static 'accounts/images/minus.svg' %}" alt="icon minus" /></button>
+                        <input type="number" id="quantidade-{{ produto.id }}" name="quantidade" value="1" min="1" class="border-none p-1 w-8 text-center bg-transparent" />
+                        <button type="button" onclick="increment('quantidade-{{ produto.id }}')"><img src="{% static 'accounts/images/plus.svg' %}" alt="icon plus" /></button>
+                      </div>
+                      <button type="submit" class="bg-tomato-100 hover:bg-tomato-200 transition duration-200 ease-in-out rounded-md py-3 px-6">Incluir</button>
+                    </form>
+                  {% endif %}
+
+                  {% if user.is_authenticated %}
+                    {% if user.is_superuser %}
+                      <a href="{% url 'update_produto' produto.id %}" class="absolute top-4 right-5"><img class="w-6 h-6" src="{% static 'accounts/images/pencil.svg' %}" alt="icon edit" /></a>
+                    {% else %}
+                      <form action="{% url 'toggle_favorito' produto.id %}" method="POST" class="absolute top-4 right-5" onsubmit="event.preventDefault(); toggleFavorito({{ produto.id }})">
+                        {% csrf_token %}
+                        <button type="submit">
+                          <img id="fav-icon-{{ produto.id }}"
+                            class="w-6 h-6"
+                            src="{% if produto.is_favorito %}
+                              {% static 'accounts/images/favorite-hover.svg' %}
+                            {% else %}
+                              {% static 'accounts/images/favorite.svg' %}
+                            {% endif %}"
+                            alt="icon favorite" />
+                        </button>
+                      </form>
+                    {% endif %}
+                  {% endif %}
+                </div>
+              {% empty %}
+                <p>Nenhum produto encontrado.</p>
+              {% endfor %}
             </div>
-          {% empty %}
-            <p>Nenhum produto encontrado.</p>
-          {% endfor %}
-        </div>
+          </div>
+        {% endfor %}
       </div>
     </div>
 
