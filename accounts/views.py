@@ -38,21 +38,32 @@ def login_view(request):
 # View de Home (apenas usuários logados podem acessar)
 @login_required(login_url='login')
 def home_view(request):
-    query = request.GET.get('query', '')  # Pega o termo de pesquisa, se houver
-    if query:
-        produtos = Produto.objects.filter(
-            Q(nome__icontains=query) | Q(descricao__icontains=query)  # Busca no nome ou na descrição
-        )
-    else:
-        produtos = Produto.objects.all()
+    # Obtenha todos os produtos e categorias
+    produtos = Produto.objects.all()
+    categorias = Categoria.objects.all()
 
+    # Filtrando pelos parâmetros de busca
+    search = request.GET.get('search', '')
+    if search:
+        produtos = produtos.filter(nome__icontains=search) | produtos.filter(descricao__icontains=search)
+
+    # Filtrando por categoria
+    categoria_id = request.GET.get('categoria')
+    if categoria_id:
+        produtos = produtos.filter(categoria__id=categoria_id)
+
+    # Verifica os produtos favoritados pelo usuário logado
     favoritos = Favorito.objects.filter(usuario=request.user).values_list('produto_id', flat=True)
 
     # Adiciona a flag `is_favorito` a cada produto
     for produto in produtos:
         produto.is_favorito = produto.id in favoritos
 
-    return render(request, 'accounts/home.html', {'produtos': produtos})
+    return render(request, 'accounts/home.html', {
+        'produtos': produtos,
+        'categorias': categorias,
+        'selected_categoria': categoria_id  # Passando a categoria selecionada para manter o estado
+    })
 
 
 # Verifica se o usuário é admin

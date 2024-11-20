@@ -12,11 +12,22 @@
         {% endif %}
       {% endif %}
     </div>
-    <div class="flex bg-dark-900 py-3 px-20 rounded-md gap-2">
-      <img class="text-light-400" src="{% static 'accounts/images/search.svg' %}" alt="" />
-      <form method="get" action="{% url 'home' %}">
-        <input class="placeholder:text-light-500 bg-dark-900 w-80 border-none focus:outline-none" type="text" name="query" placeholder="Busque por pratos ou ingredientes" value="{{ request.GET.query }}" />
-      </form>
+    <div class="flex bg-dark-900 justify-between rounded-md gap-2">
+      <form method="get" class="flex bg-dark-900 py-3 px-10 rounded-md gap-2">
+        <button type="submit"><img class="text-light-400" src="{% static 'accounts/images/search.svg' %}" alt="" /></button>
+        <input class="focus:ring-0 placeholder:text-light-500 bg-dark-900 w-80 border-none focus:outline-none" type="text" name="search" placeholder="Busque por pratos ou ingredientes" value="{{ request.GET.search }}" />
+    
+        <!-- Filtro por categoria -->
+        <select name="categoria" class="bg-dark-500 rounded-lg focus:ring-0 text-light-300 border-none focus:outline-none">
+            <option value="" {% if not request.GET.categoria %}selected{% endif %}>Selecione uma categoria</option>
+            {% for categoria in categorias %}
+                <option value="{{ categoria.id }}" {% if categoria.id|stringformat:"s" == request.GET.categoria %}selected{% endif %}>{{ categoria.nome }}</option>
+            {% endfor %}
+        </select>
+    </form>
+    
+    
+    
     </div>
   </div>
 

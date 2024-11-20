@@ -20,3 +20,24 @@ body, input, textarea, button {
     font-weight: 400;
     color: white;
 }
+
+input:focus, textarea:focus, button:focus {
+    outline: none;
+    box-shadow: none;
+    background-color: transparent; /* Ou a mesma cor de fundo */
+    border: none;
+}
+
+/* Garantir que o foco seja removido em navegação por teclado */
+input:focus-visible, textarea:focus-visible, button:focus-visible {
+    outline: none;
+    box-shadow: none;
+    background-color: transparent; /* Ou a mesma cor de fundo */
+    border: none;
+}
+
+/* Remover o contorno de foco globalmente */
+:focus {
+    outline: none;
+    box-shadow: none;
+}

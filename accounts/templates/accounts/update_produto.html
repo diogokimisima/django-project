@@ -42,7 +42,7 @@
             <div class="flex flex-col gap-4">
               <label class="text-light-400" for="id_nome">Nome</label>
               <div class="flex gap-2 bg-dark-800 py-3 px-8 rounded-lg">
-                <input class="font-poppins bg-dark-800 focus:border-none border-none" type="text" name="nome" id="id_nome" placeholder="Ex.: Salada Ceasar" value="{{ form.nome.value|default_if_none:'' }}" />
+                <input class="font-poppins bg-dark-800 focus:border-none focus:ring-0 border-none" type="text" name="nome" id="id_nome" placeholder="Ex.: Salada Ceasar" value="{{ form.nome.value|default_if_none:'' }}" />
               </div>
               {% if form.nome.errors %}
                 <div class="text-red-500 mt-2">
@@ -57,7 +57,7 @@
               <label class="text-light-400" for="id_preco">Preço</label>
               <div class="flex items-center bg-dark-800 py-3 px-8 rounded-lg">
                 <p class="">R$</p>
-                <input class="font-poppins bg-dark-800 focus:border-none border-none" type="text" name="preco" id="id_preco" placeholder="R$ 00,00" value="{{ form.preco.value|default_if_none:'' }}" />
+                <input class="font-poppins bg-dark-800 focus:border-none focus:ring-0 border-none" type="text" name="preco" id="id_preco" placeholder="R$ 00,00" value="{{ form.preco.value|default_if_none:'' }}" />
               </div>
               {% if form.preco.errors %}
                 <div class="text-red-500 mt-2">
@@ -75,7 +75,7 @@
     <select 
       name="categoria" 
       id="id_categoria" 
-      class="font-poppins bg-dark-800 focus:outline-none focus:ring-2 focus:ring-light-400 border-none w-full"
+      class="font-poppins bg-dark-800 focus:outline-none focus:ring-0 border-none w-full"
     >
       {% for categoria in categorias %}
         <option 
@@ -87,6 +87,7 @@
       {% endfor %}
     </select>
   </div>
+  
 
   {% if form.categoria.errors %}
     <div class="text-red-500 mt-2">
@@ -102,7 +103,7 @@
           <div class="flex flex-col gap-4 mt-10">
             <label class="text-light-400" for="id_descricao">Descrição</label>
             <div class="flex gap-2 bg-dark-800 py-3 px-8 rounded-lg">
-              <input class="w-full pb-28 font-poppins bg-dark-800 focus:border-none border-none" name="descricao" type="text" id="id_descricao" class="form-control" placeholder="Fale brevemente sobre o prato, seus ingredientes e composição" value="{{ form.descricao.value|default_if_none:'' }}" />
+              <input class="w-full pb-28 font-poppins bg-dark-800 focus:border-none focus:ring-0 border-none" name="descricao" type="text" id="id_descricao" class="form-control" placeholder="Fale brevemente sobre o prato, seus ingredientes e composição" value="{{ form.descricao.value|default_if_none:'' }}" />
             </div>
             {% if form.descricao.errors %}
               <div class="text-red-500 mt-2">

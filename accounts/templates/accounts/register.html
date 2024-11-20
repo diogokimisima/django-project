@@ -20,7 +20,7 @@
                 {% csrf_token %}
                 <div class="flex flex-col w-full gap-2">
                     <label for="username" class="text-light-400">{{ form.username.label }}</label>
-                    <input class="bg-dark-900 rounded-md p-3 border-dark-900 focus:border-light-100 border-none" 
+                    <input class="focus:ring-0 bg-dark-900 rounded-md p-3 border-dark-900 focus:border-light-100 border-none" 
                            type="text" name="username" 
                            placeholder='Exemplo: Maria da Silva' required />
                     {% if form.username.errors %}
@@ -33,7 +33,7 @@
                 </div>
                 <div class="flex flex-col w-full gap-2">
                     <label for="email" class="text-light-400">{{ form.email.label }}</label>
-                    <input class="bg-dark-900 rounded-md p-3 border-dark-900 focus:border-light-100 border-none" 
+                    <input class="focus:ring-0 bg-dark-900 rounded-md p-3 border-dark-900 focus:border-light-100 border-none" 
                            type="email" name="email" 
                            placeholder='seuemail@example.com' required />
                     {% if form.email.errors %}
@@ -46,7 +46,7 @@
                 </div>
                 <div class="flex flex-col w-full gap-2">
                     <label for="password1" class="text-gray-200">{{ form.password1.label }}</label>
-                    <input type="password" name="password1" id="password1" 
+                    <input type="pfocus:ring-0 assword" name="password1" id="password1" 
                            class="bg-dark-900 rounded-md p-3 border-dark-900 focus:border-light-100 border-none" 
                            placeholder='No mínimo 6 caracteres' required />
 
@@ -60,7 +60,7 @@
                 </div>
                 <div class="flex flex-col w-full gap-2">
                     <label for="password2" class="text-gray-200">{{ form.password2.label }}</label>
-                    <input type="password" name="password2" id="password2" 
+                    <input type="pfocus:ring-0 assword" name="password2" id="password2" 
                            class="bg-dark-900 rounded-md p-3 border-dark-900 focus:border-light-100 border-none" 
                            placeholder='Digite sua senha' required />
                     {% if form.password2.errors %}

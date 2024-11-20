@@ -24,7 +24,7 @@
           <div class="flex gap-8">
             <div class="flex flex-col gap-4">
               <label for="id_imagem" class="text-light-400">Imagem do prato</label>
-              <input class="hidden" type="file" name="imagem" id="id_imagem" accept="image/*" />
+              <input class="focus:ring-0 hidden" type="file" name="imagem" id="id_imagem" accept="image/*" />
               <div class="flex items-center gap-2 bg-dark-800 py-5 px-8 rounded-lg hover:bg-dark-1000 cursor-pointer" onclick="document.getElementById('id_imagem').click();">
                 <img id="upload-icon" class="h-6 w-6" src="{% static 'accounts/images/download.svg' %}" alt="icon download" />
                 <p id="upload-text" class="font-poppins">Selecione imagem</p>
@@ -42,7 +42,7 @@
             <div class="flex flex-col gap-4">
               <label class="text-light-400" for="id_nome">Nome</label>
               <div class="flex gap-2 bg-dark-800 py-3 px-8 rounded-lg">
-                <input class="font-poppins bg-dark-800 focus:border-none border-none" type="text" name="nome" id="id_nome" placeholder="Ex.: Salada Ceasar" value="{{ form.nome.value|default_if_none:'' }}" />
+                <input class="focus:ring-0 font-poppins bg-dark-800 focus:border-none border-none" type="text" name="nome" id="id_nome" placeholder="Ex.: Salada Ceasar" value="{{ form.nome.value|default_if_none:'' }}" />
               </div>
               {% if form.nome.errors %}
                 <div class="text-red-500 mt-2">
@@ -56,7 +56,7 @@
             <div class="flex flex-col gap-4">
               <label class="text-light-400" for="id_preco">Preço</label>
               <div class="flex gap-2 bg-dark-800 py-3 px-8 rounded-lg">
-                <input class="font-poppins bg-dark-800 focus:border-none border-none" type="number" name="preco" id="id_preco" placeholder="R$ 00,00" value="{{ form.preco.value|default_if_none:'' }}" />
+                <input class="focus:ring-0 font-poppins bg-dark-800 focus:border-none border-none" type="number" name="preco" id="id_preco" placeholder="R$ 00,00" value="{{ form.preco.value|default_if_none:'' }}" />
               </div>
               {% if form.preco.errors %}
                 <div class="text-red-500 mt-2">
@@ -70,7 +70,7 @@
             <div class="flex flex-col gap-4">
               <label class="text-light-400" for="id_categoria">Categoria</label>
               <div class="flex gap-2 bg-dark-800 py-3 px-8 rounded-lg">
-                <select name="categoria" id="id_categoria" class="font-poppins bg-dark-800 focus:border-none border-none">
+                <select name="categoria" id="id_categoria" class="font-poppins bg-dark-800 focus:border-none focus:ring-0 border-none">
                   <option class="text-dark-200" value="">Selecione uma categoria</option>
                   {% for categoria in categorias %}
                     <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
@@ -90,7 +90,7 @@
           <div class="flex flex-col gap-4 mt-10">
             <label class="text-light-400" for="id_descricao">Descrição</label>
             <div class="flex gap-2 bg-dark-800 py-3 px-8 rounded-lg">
-              <input class="w-full pb-28 font-poppins bg-dark-800 focus:border-none border-none" name="descricao" type="text" id="id_descricao" class="form-control" placeholder="Fale brevemente sobre o prato, seus ingredientes e composição" value="{{ form.descricao.value|default_if_none:'' }}" />
+              <input class="focus:ring-0 w-full pb-28 font-poppins bg-dark-800 focus:border-none border-none" name="descricao" type="text" id="id_descricao" class="form-control" placeholder="Fale brevemente sobre o prato, seus ingredientes e composição" value="{{ form.descricao.value|default_if_none:'' }}" />
             </div>
             {% if form.descricao.errors %}
               <div class="text-red-500 mt-2">
