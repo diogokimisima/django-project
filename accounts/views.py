@@ -4,6 +4,7 @@ from .models import Produto, Pedido, Favorito, Categoria
 from .forms import RegisterForm, ProdutoForm, CategoriaForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db.models import Q
 
 # View de registro
 def register(request):
@@ -37,7 +38,14 @@ def login_view(request):
 # View de Home (apenas usuários logados podem acessar)
 @login_required(login_url='login')
 def home_view(request):
-    produtos = Produto.objects.all()
+    query = request.GET.get('query', '')  # Pega o termo de pesquisa, se houver
+    if query:
+        produtos = Produto.objects.filter(
+            Q(nome__icontains=query) | Q(descricao__icontains=query)  # Busca no nome ou na descrição
+        )
+    else:
+        produtos = Produto.objects.all()
+
     favoritos = Favorito.objects.filter(usuario=request.user).values_list('produto_id', flat=True)
 
     # Adiciona a flag `is_favorito` a cada produto
@@ -45,6 +53,7 @@ def home_view(request):
         produto.is_favorito = produto.id in favoritos
 
     return render(request, 'accounts/home.html', {'produtos': produtos})
+
 
 # Verifica se o usuário é admin
 def is_admin(user):

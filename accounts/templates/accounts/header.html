@@ -14,7 +14,9 @@
     </div>
     <div class="flex bg-dark-900 py-3 px-20 rounded-md gap-2">
       <img class="text-light-400" src="{% static 'accounts/images/search.svg' %}" alt="" />
-      <input class="placeholder:text-light-500 bg-dark-900 w-80 border-none focus:outline-none" type="text" placeholder="Busque por pratos ou ingredientes" />
+      <form method="get" action="{% url 'home' %}">
+        <input class="placeholder:text-light-500 bg-dark-900 w-80 border-none focus:outline-none" type="text" name="query" placeholder="Busque por pratos ou ingredientes" value="{{ request.GET.query }}" />
+      </form>
     </div>
   </div>
 
@@ -24,13 +26,9 @@
       <a href="{% url 'add_categoria' %}" class="flex bg-tomato-100 gap-2 py-3 px-6 rounded-md hover:bg-tomato-200 transition duration-200 ease-in-out text-light-100">Adicionar Categoria</a>
     {% else %}
       <div class="relative">
-        <a href="{% url 'pedidos' %}">
-          <img class="text-light-100" src="{% static 'accounts/images/pedido.svg' %}" alt="logo-pedido" />
-        </a>
+        <a href="{% url 'pedidos' %}"><img class="text-light-100" src="{% static 'accounts/images/pedido.svg' %}" alt="logo-pedido" /></a>
       </div>
-      <a href="{% url 'favoritos_view' %}" class="relative">
-        <img class="text-light-100" src="{% static 'accounts/images/favorite.svg' %}" alt="logo-favoritos" />
-      </a>
+      <a href="{% url 'favoritos_view' %}" class="relative"><img class="text-light-100" src="{% static 'accounts/images/favorite.svg' %}" alt="logo-favoritos" /></a>
     {% endif %}
   {% endif %}
 
