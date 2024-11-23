@@ -41,7 +41,12 @@
 
         <p class="font-poppins text-[20px]">Total: R$ {{ total }}</p>
 
-        <button class="font-poppins text-[14px] px-20 py-3 bg-tomato-200 rounded-md">Avançar</button>
+        <button >Avançar</button>
+        <form method="POST" action="{% url 'enviar_whatsapp' %}">
+          {% csrf_token %}
+          <button type="submit" class="font-poppins text-[14px] px-20 py-3 bg-tomato-200 rounded-md">Avançar</button>
+      </form>
+      
       </div>
     </div>
 

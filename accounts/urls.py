@@ -17,5 +17,6 @@ urlpatterns = [
     path('update_produto/<int:id>/', views.update_produto, name='update_produto'),
     path('produto/<int:produto_id>/delete/', views.delete_produto, name='delete_produto'),
     path('toggle-favorito/<int:produto_id>/', views.toggle_favorito, name='toggle_favorito'),
+    path('enviar_whatsapp/', views.enviar_whatsapp, name='enviar_whatsapp'),
 ]
 
