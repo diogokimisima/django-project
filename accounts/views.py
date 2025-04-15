@@ -104,7 +104,7 @@ def update_produto(request, id):
         form = ProdutoForm(data, request.FILES, instance=produto)
         if form.is_valid():
             form.save()
-            return redirect('home')  # Redireciona após salvar
+            return redirect('home') 
     else:
         form = ProdutoForm(instance=produto)
 
@@ -186,7 +186,6 @@ def enviar_whatsapp(request):
         messages.error(request, "Você não tem pedidos para enviar.")
         return redirect('pedidos')
 
-    # Gerar detalhes do pedido
     detalhes_pedidos = "\n".join(
         [
             f"{pedido.quantidade}x {pedido.produto.nome} - R$ {pedido.preco_total:.2f}"
@@ -195,31 +194,25 @@ def enviar_whatsapp(request):
     )
     total = sum(pedido.preco_total for pedido in pedidos)
 
-    # Dados do cliente
     nome_cliente = request.user.first_name or request.user.username
     data_pedido = now().strftime("%d/%m/%Y %H:%M")
 
-    # Montar mensagem completa
     mensagem = (
-        f"🛒 *Novo Pedido Realizado!*\n\n"
-        f"📅 *Data do Pedido:* {data_pedido}\n"
-        f"👤 *Cliente:* {nome_cliente}\n\n"
-        f"📋 *Detalhes do Pedido:*\n{detalhes_pedidos}\n\n"
-        f"💰 *Total:* R$ {total:.2f}\n\n"
-        f"📦 *Ação Necessária:* Por favor, envie:\n"
-        f"1️⃣ O endereço completo para entrega.\n"
-        f"2️⃣ O método de pagamento escolhido (dinheiro, cartão, etc.).\n\n"
-        f"✅ Após enviar essas informações, confirme para que possamos processar o pedido."
+        f"*Novo Pedido Realizado!*\n\n"
+        f"*Data do Pedido:* {data_pedido}\n"
+        f"*Cliente:* {nome_cliente}\n\n"
+        f"*Detalhes do Pedido:*\n{detalhes_pedidos}\n\n"
+        f"*Total:* R$ {total:.2f}\n\n"
+        f"*Ação Necessária:* Por favor, envie:\n"
+        f"O endereço completo para entrega.\n"
+        f"O método de pagamento escolhido (dinheiro, cartão, etc.).\n\n"
+        f"Após enviar essas informações, confirme para que possamos processar o pedido."
     )
 
-    # Número do WhatsApp para onde será enviada a mensagem
-    numero_destino = "5518981969555"  # Substituir pelo número de destino correto
+    numero_destino = "5518981969555" 
 
-    # Codificar a mensagem para URL
     mensagem_codificada = urlencode({"text": mensagem})
 
-    # Construir o link
     whatsapp_url = f"https://wa.me/{numero_destino}?{mensagem_codificada}"
 
-    # Redirecionar o usuário para o link do WhatsApp
     return redirect(whatsapp_url)
